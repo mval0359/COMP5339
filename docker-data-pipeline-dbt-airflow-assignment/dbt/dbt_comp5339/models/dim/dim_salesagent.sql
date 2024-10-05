@@ -6,7 +6,7 @@ unique_key = 'sales_agent_key'
 }}
 
 
-SELECT
+SELECT reseller_id, reseller_name, commission_pct
      -- fill code here 
 FROM
     {{ ref('staging_resellers') }}

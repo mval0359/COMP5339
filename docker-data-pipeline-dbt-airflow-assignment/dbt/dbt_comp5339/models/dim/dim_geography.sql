@@ -3,7 +3,6 @@
       unique_key = 'geographykey'
 ) }}
 
-SELECT
-       -- fill code here 
+SELECT id,cityname,countryname,regionname -- fill code here 
 FROM
       {{ ref('geography') }}
