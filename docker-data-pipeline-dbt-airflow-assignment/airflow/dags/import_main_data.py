@@ -57,9 +57,17 @@ import_resellers_task = BashOperator(
 )
 
 
-import_customers_task =  #-- fill code here 
+import_customers_task =  BashOperator(
+    task_id='import_customers',
+    bash_command=f"""psql {AIRFLOW_CONN_SALES_OLTP} -c "\\copy customers to stdout" | psql {AIRFLOW_CONN_SALES_DW} -c "\\copy import.customers(customer_id, customer_first_name, customer_last_name, customer_email, sales_agent_key) from stdin" """,
+    dag=dag,
+)#-- fill code  
 
-import_products_task = #-- fill code here 
+import_products_task = BashOperator(
+    task_id='import_products',
+    bash_command=f"""psql {AIRFLOW_CONN_SALES_OLTP} -c "\\copy products to stdout" | psql {AIRFLOW_CONN_SALES_DW} -c "\\copy import.products(product_id, product_name, geography_key, product_price) from stdin" """,
+    dag=dag,
+)#-- fill code here 
 
 
 wait_for_init >> import_transactions_task >> [import_channels_task, import_customers_task, import_resellers_task, import_products_task]
